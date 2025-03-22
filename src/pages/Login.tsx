@@ -23,12 +23,12 @@ const Login = () => {
         description: "Welcome back, John Doe!"
       });
 
-      // Store admin session in localStorage with John Doe name
+      // Store admin session in localStorage
       const session = {
         user: {
           email: 'admin@admin.com',
           name: 'John Doe',
-          role: 'user',
+          role: 'admin',
           id: 'admin-user-id'
         },
         isAuthenticated: true

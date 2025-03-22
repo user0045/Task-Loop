@@ -93,8 +93,8 @@ const Signup = () => {
         <h1 className="text-5xl font-bold text-primary">TaskLoop</h1>
       </div>
       
-      <div className="w-full max-w-md px-4 md:px-0">
-        <div className="border-border bg-card p-6 rounded-lg shadow-md space-y-6 relative overflow-hidden">
+      <div className="w-full max-w-md px-4 md:px-0 mt-8">
+        <div className="border-border bg-card p-6 rounded-lg shadow-md space-y-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-accent"></div>
           
           <div className="space-y-1">
@@ -105,8 +105,8 @@ const Signup = () => {
           </div>
           
           <form onSubmit={handleSignup}>
-            <div className="grid gap-4">
-              <div className="grid gap-2">
+            <div className="grid gap-3">
+              <div className="grid gap-1">
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
@@ -119,13 +119,13 @@ const Signup = () => {
                 />
               </div>
               
-              <div className="grid gap-2">
+              <div className="grid gap-1">
                 <Label htmlFor="email">Email</Label>
                 <div className="flex gap-2">
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder="example@iiitkottayam.ac.in"
                     className="input-dark flex-1"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -148,12 +148,12 @@ const Signup = () => {
               </div>
 
               {isOtpSent && !isOtpVerified && (
-                <div className="grid gap-2">
+                <div className="grid gap-1">
                   <Label htmlFor="otp">Verification Code</Label>
-                  <p className="text-sm text-muted-foreground mb-2">
+                  <p className="text-sm text-muted-foreground mb-1">
                     We've sent a 6-digit code to {email}
                   </p>
-                  <div className="flex justify-center my-2">
+                  <div className="flex justify-center my-1">
                     <InputOTP maxLength={6} value={otp} onChange={handleOTPChange}>
                       <InputOTPGroup>
                         <InputOTPSlot index={0} />
@@ -177,12 +177,25 @@ const Signup = () => {
                 </div>
               )}
 
-              <div className="grid gap-2">
+              <div className="grid gap-1">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   type="password"
                   placeholder="Create a password"
+                  className="input-dark"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="grid gap-1">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
                   className="input-dark"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -197,17 +210,21 @@ const Signup = () => {
               >
                 Sign Up
               </Button>
+              <div className="flex items-center justify-between mt-1">
+                <Link to="/" className="text-sm text-primary hover:underline">
+                  Back to Home
+                </Link>
+              </div>
+              <div className="flex justify-center pt-1">
+                <p className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-primary hover:underline">
+                    Login
+                  </Link>
+                </p>
+              </div>
             </div>
           </form>
-          
-          <div className="flex justify-center pt-4">
-            <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
-              <Link to="/login" className="text-primary hover:underline">
-                Login
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -57,6 +56,11 @@ const LandingPage = () => {
                   Login
                 </Button>
               </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Button variant="ghost" onClick={handleStartClick}>
+                  Register
+                </Button>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -64,22 +68,25 @@ const LandingPage = () => {
       
       {/* Hero Section */}
       <main className="flex-grow flex items-center justify-center relative z-10">
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary">
+        <div className="container mx-auto px-4 py-16 text-left">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-primary">
             Welcome to Task Loop
           </h1>
-          <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-muted-foreground">
-            Connect with people who need your skills or find someone to help you with your tasks
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-primary">
+            Get Things Done on Campus
+          </h2>
+          <p className="text-2xl md:text-3xl mb-4 max-w-3xl text-muted-foreground">
+            Connect with fellow students to complete tasks, share resources, and make campus life easier
           </p>
-          
-          <Button 
-            size="lg" 
-            className="relative overflow-hidden rounded-full px-8 py-2 h-10 transition-all duration-300 transform hover:scale-105 group"
-            onClick={handleStartClick}
-          >
-            <span className="relative z-10">Let's Start</span>
-            <span className="absolute left-0 top-0 w-full h-full bg-primary opacity-75 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-          </Button>
+          <p className="text-lg md:text-xl mb-10 max-w-3xl text-muted-foreground">
+            ✓ Post and find campus-related tasks
+            <br />
+            ✓ Secure university email verification
+            <br />
+            ✓ Real-time chat with task participants
+            <br />
+            ✓ Build reputation with ratings
+          </p>
         </div>
       </main>
       
