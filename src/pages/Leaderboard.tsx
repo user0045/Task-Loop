@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Table, 
@@ -32,39 +32,26 @@ const topDoers = [
   { id: 5, name: 'Sarah Garcia', avatar: '', tasksCompleted: 28, rating: 4.8 },
 ];
 
-// Function to mask username if user is not logged in
-const maskUsername = (name: string): string => {
-  if (!name || name.length <= 1) return name;
-  
-  const nameParts = name.split(' ');
-  const maskedParts = nameParts.map(part => {
-    if (part.length <= 1) return part;
-    return `${part[0]}${'*'.repeat(Math.min(part.length - 2, 4))}${part[part.length - 1]}`;
-  });
-  
-  return maskedParts.join(' ');
-};
-
 const Leaderboard = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
-    const checkAuth = () => {
+    try {
       const localSession = localStorage.getItem('taskloop_session');
-      setIsAuthenticated(localSession ? JSON.parse(localSession).isAuthenticated : false);
-    };
-    
-    checkAuth();
-    
-    // Set up an event listener for storage changes
-    window.addEventListener('storage', checkAuth);
-    
-    return () => {
-      window.removeEventListener('storage', checkAuth);
-    };
-  }, []);
-  
+      const isAuthenticated = localSession ? JSON.parse(localSession).isAuthenticated : false;
+
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error parsing session data:', error);
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const getAvatar = (avatar: string, name: string) => 
+    avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`;
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -103,10 +90,10 @@ const Leaderboard = () => {
                         </TableCell>
                         <TableCell className="flex items-center gap-3">
                           <Avatar>
-                            <AvatarImage src={user.avatar} />
-                            <AvatarFallback>{isAuthenticated ? user.name.split(' ').map(n => n[0]).join('') : maskUsername(user.name).split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                            <AvatarImage src={getAvatar(user.avatar, user.name)} alt={`${user.name}'s avatar`} />
+                            <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                           </Avatar>
-                          {isAuthenticated ? user.name : maskUsername(user.name)}
+                          {user.name}
                         </TableCell>
                         <TableCell>{user.tasksCreated}</TableCell>
                         <TableCell className="text-right text-yellow-500 font-medium">
@@ -137,10 +124,10 @@ const Leaderboard = () => {
                         </TableCell>
                         <TableCell className="flex items-center gap-3">
                           <Avatar>
-                            <AvatarImage src={user.avatar} />
-                            <AvatarFallback>{isAuthenticated ? user.name.split(' ').map(n => n[0]).join('') : maskUsername(user.name).split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                            <AvatarImage src={getAvatar(user.avatar, user.name)} alt={`${user.name}'s avatar`} />
+                            <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                           </Avatar>
-                          {isAuthenticated ? user.name : maskUsername(user.name)}
+                          {user.name}
                         </TableCell>
                         <TableCell>{user.tasksCompleted}</TableCell>
                         <TableCell className="text-right text-green-500 font-medium">

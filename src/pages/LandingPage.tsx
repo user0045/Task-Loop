@@ -20,6 +20,11 @@ const LandingPage = () => {
     e.preventDefault();
     navigate('/signup');
   };
+
+  const handleLeaderboardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate('/login?redirect=/leaderboard');
+  };
   
   return (
     <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
@@ -44,12 +49,10 @@ const LandingPage = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link to="/leaderboard">
-                  <Button variant="ghost" className="flex items-center gap-2">
-                    <Trophy size={20} />
-                    Leaderboard
-                  </Button>
-                </Link>
+                <Button variant="ghost" onClick={handleLeaderboardClick}>
+                  <Trophy size={20} />
+                  Leaderboard
+                </Button>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Button variant="ghost" onClick={handleLoginClick}>

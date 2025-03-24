@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,54 +14,30 @@ const Login = () => {
     toast
   } = useToast();
   const navigate = useNavigate();
-  const handleSubmit = (e: React.FormEvent) => {
+  const location = useLocation();
+  const redirect = new URLSearchParams(location.search).get('redirect') || '/home';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Check for the only valid credential
-    if (email === 'admin@admin.com' && password === 'admin@123') {
-      toast({
-        title: "Login Successful",
-        description: "Welcome back, John Doe!"
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
-
-      // Store admin session in localStorage
-      const session = {
-        user: {
-          email: 'admin@admin.com',
-          name: 'John Doe',
-          role: 'admin',
-          id: 'admin-user-id'
-        },
-        isAuthenticated: true
-      };
-      localStorage.setItem('taskloop_session', JSON.stringify(session));
-
-      // Redirect to home after login
-      navigate('/home');
-      return;
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        toast({ title: 'Login Successful', description: 'Welcome back!' });
+        navigate('/home');
+      } else {
+        toast({ title: 'Error', description: data.error, variant: 'destructive' });
+      }
+    } catch (error) {
+      toast({ title: 'Error', description: 'Server error', variant: 'destructive' });
     }
-
-    // For demo purposes, allow any login
-    toast({
-      title: "Login Successful",
-      description: "Welcome to Task Loop!"
-    });
-
-    // Store a generic session
-    const session = {
-      user: {
-        email: email || 'user@example.com',
-        name: 'Demo User',
-        role: 'user',
-        id: 'demo-user-id'
-      },
-      isAuthenticated: true
-    };
-    localStorage.setItem('taskloop_session', JSON.stringify(session));
-
-    // Redirect to home after login
-    navigate('/home');
   };
+
   return <div className="flex flex-col items-center min-h-screen bg-background">
       <div className="w-full text-center py-12">
         <h1 className="text-5xl font-bold text-primary">TaskLoop</h1>
