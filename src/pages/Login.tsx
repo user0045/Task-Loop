@@ -58,7 +58,7 @@ const Login = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="name@example.com" className="input-dark" value={email} onChange={e => setEmail(e.target.value)} />
+                <Input id="email" type="email" placeholder="example@iiitkottayam.ac.in" className="input-dark" value={email} onChange={e => setEmail(e.target.value)} />
               </div>
               
               <div className="space-y-2">
